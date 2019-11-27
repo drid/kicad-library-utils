@@ -64,7 +64,8 @@ class Rule(KLCRule):
             * pin1_count
         """
         module = self.module
-
+        if module.attribute != 'pth':
+            return
         return any([
             self.checkPads(module.filterPads('thru_hole'))
             ])
@@ -78,4 +79,3 @@ class Rule(KLCRule):
         for pad in module.filterPads('thru_hole'):
             self.info("Pad {n} - Setting required layers for THT pad".format(n=pad['number']))
             pad['layers'] = self.required_layers
-
