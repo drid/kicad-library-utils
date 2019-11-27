@@ -171,8 +171,12 @@ class Rule(KLCRule):
         # Check for existence of courtyard
         if len(self.fCourtyard) == 0:
             if len(self.bCourtyard) == 0:
-                self.error("No courtyard found!")
-                self.errorExtra("Add courtyard around footprint")
+                if self.module.attribute == 'virtual':
+                    self.warning("No courtyard found!")
+                    self.warning("Add courtyard around footprint")
+                else:
+                    self.error("No courtyard found!")
+                    self.errorExtra("Add courtyard around footprint")
                 return True
 
         self.courtyard = self.fCourtyard + self.bCourtyard

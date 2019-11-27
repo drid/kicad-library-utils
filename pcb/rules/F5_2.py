@@ -21,9 +21,9 @@ class Rule(KLCRule):
         mod = self.module
 
         val = mod.value
-        
+
         errors = []
-        
+
         # Value is missing entirely
         if not val:
             self.error("Missing 'value' field")
@@ -46,7 +46,10 @@ class Rule(KLCRule):
         if val['layer'] not in ['F.Fab', 'B.Fab']:
             errors.append("Component value is on layer {lyr} but should be on F.Fab or B.Fab".format(lyr=val['layer']))
         if val['hide']:
-            errors.append("Component value is hidden (should be set to visible)")
+            if self.module.attribute == 'virtual':
+                self.warning("Component value is hidden (should be set to visible)")
+            else:
+                errors.append("Component value is hidden (should be set to visible)")
 
         if f_min < KLC_TEXT_SIZE_MIN:
             errors.append("Value label size ({s}mm) is below minimum allowed value of {a}mm".format(s=f_min, a=KLC_TEXT_SIZE_MIN))

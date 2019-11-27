@@ -38,7 +38,10 @@ class Rule(KLCRule):
 
         # Check that reference is not hidden
         if ref['hide']:
-            errors.append("Reference label is hidden (must be set to visible)")
+            if self.module.attribute == 'virtual':
+                self.warning("Reference label is hidden (must be set to visible)")
+            else:
+                errors.append("Reference label is hidden (must be set to visible)")
 
         # Check reference size
         if not font['width'] == font['height']:
